@@ -82,6 +82,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 - [Rias Van der Veken](https://github.com/riasvdv)
 - [All Contributors](../../contributors)
 
+The original code from this package came from [Onboard](https://github.com/calebporzio/onboard) by [Caleb Porzio](https://github.com/calebporzio), who was gratious enough to let us continue development.
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
