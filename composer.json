@@ -1,12 +1,12 @@
 {
-    "name": "spatie/laravel-livewire-onboard",
+    "name": "spatie/laravel-onboard",
     "description": "A Laravel package to help track user onboarding steps",
     "keywords": [
         "spatie",
         "laravel",
-        "laravel-livewire-onboard"
+        "laravel-onboard"
     ],
-    "homepage": "https://github.com/spatie/laravel-livewire-onboard",
+    "homepage": "https://github.com/spatie/laravel-onboard",
     "license": "MIT",
     "authors": [
         {
@@ -51,7 +51,11 @@
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
     },
     "extra": {
         "laravel": {

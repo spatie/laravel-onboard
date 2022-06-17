@@ -3,16 +3,14 @@
 
 # A Laravel package to help track user onboarding steps
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-livewire-onboard.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-livewire-onboard)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/spatie/laravel-livewire-onboard/run-tests?label=tests)](https://github.com/spatie/laravel-livewire-onboard/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/spatie/laravel-livewire-onboard/Check%20&%20fix%20styling?label=code%20style)](https://github.com/spatie/laravel-livewire-onboard/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-livewire-onboard.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-livewire-onboard)
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-onboard.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-onboard)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/spatie/laravel-onboard/run-tests?label=tests)](https://github.com/spatie/laravel-onboard/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/spatie/laravel-onboard/Check%20&%20fix%20styling?label=code%20style)](https://github.com/spatie/laravel-onboard/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-onboard.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-onboard)
 
 ## Support us
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-livewire-onboard.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-livewire-onboard)
+[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-onboard.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-onboard)
 
 We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
 
@@ -23,41 +21,137 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 You can install the package via composer:
 
 ```bash
-composer require spatie/laravel-livewire-onboard
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="laravel-livewire-onboard-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="laravel-livewire-onboard-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="laravel-livewire-onboard-views"
+composer require spatie/laravel-onboard
 ```
 
 ## Usage
 
+Add the `Spatie\Onboard\GetsOnboarded` trait to your app's `User` model.
+
 ```php
-$onboard = new Spatie\Onboard();
-echo $onboard->echoPhrase('Hello, Spatie!');
+class User extends Model
+{
+    use \Spatie\Onboard\GetsOnboarded;
+    ...
 ```
+
+### Example configuration
+
+Configure your steps in your `App\Providers\AppServiceProvider.php`
+
+```php
+use App\User;
+use Spatie\Onboard\OnboardFacade;
+
+class AppServiceProvider extends ServiceProvider
+{
+    // ...
+
+    public function boot()
+    {
+	    OnboardFacade::addStep('Complete Profile')
+	    	->link('/profile')
+	    	->cta('Complete')
+	    	->completeIf(function (User $user) {
+	    		return $user->profile->isComplete();
+	    	});
+
+	    OnboardFacade::addStep('Create Your First Post')
+	    	->link('/post/create')
+	    	->cta('Create Post')
+	    	->completeIf(function (User $user) {
+	    		return $user->posts->count() > 0;
+	    	});
+```
+
+### Usage
+
+Now you can access these steps along with their state wherever you like. Here is an example blade template:
+
+```php
+@if (auth()->user()->onboarding()->inProgress())
+	<div>
+
+		@foreach (auth()->user()->onboarding()->steps as $step)
+			<span>
+				@if($step->complete())
+					<i class="fa fa-check-square-o fa-fw"></i>
+					<s>{{ $loop->iteration }}. {{ $step->title }}</s>
+				@else
+					<i class="fa fa-square-o fa-fw"></i>
+					{{ $loop->iteration }}. {{ $step->title }}
+				@endif
+			</span>
+						
+			<a href="{{ $step->link }}" {{ $step->complete() ? 'disabled' : '' }}>
+				{{ $step->cta }}
+			</a>
+		@endforeach
+	</div>
+@endif
+```
+
+Check out all the available features below:
+
+```php
+$onboarding = Auth::user()->onboarding();
+
+$onboarding->inProgress();
+
+$onboarding->finished();
+
+$onboarding->steps()->each(function($step) {
+	$step->title;
+	$step->cta;
+	$step->link;
+	$step->complete();
+	$step->incomplete();
+});
+```
+
+Definining custom attributes and accessing them:
+
+```php
+// Defining the attributes
+OnboardFacade::addStep('Step w/ custom attributes')
+	->attributes([
+		'name' => 'Waldo',
+		'shirt_color' => 'Red & White',
+	]);
+
+// Accessing them
+$step->name;
+$step->shirt_color;
+```
+
+### Example middleware
+
+If you want to ensure that your user is redirected to the next unfinished onboarding step, whenever they access your web application, you can use the following middleware as a starting point:
+
+```php
+<?php
+
+namespace App\Http\Middleware;
+
+use Auth;
+use Closure;
+
+class RedirectToUnfinishedOnboardingStep
+{
+    public function handle($request, Closure $next)
+    {
+        if (auth()->user()->onboarding()->inProgress()) {
+            return redirect()->to(
+                auth()->user()->onboarding()->nextUnfinishedStep()->link
+            );
+        }
+        
+        return $next($request);
+    }
+}
+```
+
+**Quick tip:** Don't add this middleware to routes that update the state of the onboarding steps, your users will not be able to progress because they will be redirected back to the onboarding step.
 
 ## Testing
 
@@ -78,7 +172,6 @@ Please see [CONTRIBUTING](https://github.com/spatie/.github/blob/main/CONTRIBUTI
 Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
 ## Credits
-
 - [Rias Van der Veken](https://github.com/riasvdv)
 - [All Contributors](../../contributors)
 

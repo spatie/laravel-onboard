@@ -1,3 +1,3 @@
 # Changelog
 
-All notable changes to `laravel-livewire-onboard` will be documented in this file.
+All notable changes to `laravel-onboard` will be documented in this file.
