@@ -152,6 +152,7 @@ it('will only run complete callbacks once', function () {
         ->link("/step-1")
         ->completeIf(function () use (&$called) {
             $called++;
+
             return true;
         });
 
