@@ -38,7 +38,7 @@ class OnboardingSteps
     public function steps($user)
     {
         // Load each step with the current User object.
-        return collect($this->steps)->map(function($step) use ($user) {
+        return collect($this->steps)->map(function ($step) use ($user) {
             return $step->setUser($user);
         });
     }

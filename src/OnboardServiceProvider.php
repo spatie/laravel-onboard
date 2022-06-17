@@ -4,7 +4,6 @@ namespace Spatie\Onboard;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Spatie\Onboard\Commands\OnboardCommand;
 
 class OnboardServiceProvider extends PackageServiceProvider
 {

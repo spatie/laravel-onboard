@@ -7,7 +7,8 @@ namespace Spatie\Onboard;
  * state of the onboarding instance. It will typically be
  * accessed like so: $user->onboarding()
  */
-class OnboardingManager {
+class OnboardingManager
+{
     /**
      * All defined onboarding steps.
      *

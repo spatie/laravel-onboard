@@ -1,15 +1,15 @@
 <?php
 
 
-use Spatie\Onboard\OnboardingSteps;
 use Spatie\Onboard\OnboardingManager;
+use Spatie\Onboard\OnboardingSteps;
 
 beforeEach(function () {
     $this->user = $this->mock('User');
 });
 
 test('steps can be defined and configured', function () {
-    $onboardingSteps = new OnboardingSteps;
+    $onboardingSteps = new OnboardingSteps();
 
     $onboardingSteps->addStep('Test Step')
         ->link('/some/url')
@@ -30,7 +30,7 @@ test('steps can be defined and configured', function () {
 });
 
 test('is in progress when all steps are incomplete', function () {
-    $onboardingSteps = new OnboardingSteps;
+    $onboardingSteps = new OnboardingSteps();
     $onboardingSteps->addStep('Test Step');
     $onboardingSteps->addStep('Another Test Step');
 
@@ -41,7 +41,7 @@ test('is in progress when all steps are incomplete', function () {
 });
 
 test('is finished when all steps are complete', function () {
-    $onboardingSteps = new OnboardingSteps;
+    $onboardingSteps = new OnboardingSteps();
     $onboardingSteps->addStep('Test Step')
         ->completeIf(function () {
             return true;
@@ -54,7 +54,7 @@ test('is finished when all steps are complete', function () {
 });
 
 test('it returns the correct next unfinished step', function () {
-    $onboardingSteps = new OnboardingSteps;
+    $onboardingSteps = new OnboardingSteps();
     $onboardingSteps->addStep('Step 1')
         ->link("/step-1")
         ->completeIf(function () {
@@ -83,7 +83,7 @@ test('it returns the correct next unfinished step', function () {
 });
 
 test('nextUnfinishedStep returns null if all steps are completed', function () {
-    $onboardingSteps = new OnboardingSteps;
+    $onboardingSteps = new OnboardingSteps();
     $onboardingSteps->addStep('Step 1')
         ->completeIf(function () {
             return true;
@@ -110,11 +110,12 @@ test('the proper object gets passed into completion callback', function () {
     $user = $this->mock('User');
     $user->shouldReceive('testMe')->once();
 
-    $onboardingSteps = new OnboardingSteps;
+    $onboardingSteps = new OnboardingSteps();
     $onboardingSteps->addStep('Test Step')
         ->completeIf(function ($user) {
             // if this gets called, it ensures that the right object was passed through.
             $user->testMe();
+
             return true;
         });
 
