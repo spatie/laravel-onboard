@@ -63,7 +63,7 @@
                 "Spatie\\Onboard\\OnboardServiceProvider"
             ],
             "aliases": {
-                "Onboard": "Spatie\\Onboard\\Facades\\Onboard"
+                "Onboard": "Spatie\\Onboard\\OnboardFacade"
             }
         }
     },
