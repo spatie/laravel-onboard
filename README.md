@@ -26,12 +26,12 @@ composer require spatie/laravel-onboard
 
 ## Usage
 
-Add the `Spatie\Onboard\GetsOnboarded` trait to your app's `User` model.
+Add the `Spatie\Onboard\Concerns\GetsOnboarded` trait and `Spatie\Onboard\Concerns\Onboardable` interface to any model or class in your app, for example the `User` model:
 
 ```php
-class User extends Model
+class User extends Model implements \Spatie\Onboard\Concerns\Onboardable
 {
-    use \Spatie\Onboard\GetsOnboarded;
+    use \Spatie\Onboard\Concerns\GetsOnboarded;
     ...
 ```
 
@@ -41,7 +41,7 @@ Configure your steps in your `App\Providers\AppServiceProvider.php`
 
 ```php
 use App\User;
-use Spatie\Onboard\OnboardFacade;
+use Spatie\Onboard\Facades\Onboard;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -49,17 +49,22 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-	    OnboardFacade::addStep('Complete Profile')
+	    Onboard::addStep('Complete Profile')
 	    	->link('/profile')
 	    	->cta('Complete')
-	    	->completeIf(function (User $user) {
+	    	/**
+             * The completeIf will pass the class that you've added the
+             * interface & trait to. You can use Laravel's dependency
+             * injection here to inject anything else as well.
+             */
+	    	->completeIf(function (User $model) {
 	    		return $user->profile->isComplete();
 	    	});
 
-	    OnboardFacade::addStep('Create Your First Post')
+	    Onboard::addStep('Create Your First Post')
 	    	->link('/post/create')
 	    	->cta('Create Post')
-	    	->completeIf(function (User $user) {
+	    	->completeIf(function (User $model) {
 	    		return $user->posts->count() > 0;
 	    	});
 ```
@@ -68,10 +73,9 @@ class AppServiceProvider extends ServiceProvider
 
 Now you can access these steps along with their state wherever you like. Here is an example blade template:
 
-```php
+```blade
 @if (auth()->user()->onboarding()->inProgress())
 	<div>
-
 		@foreach (auth()->user()->onboarding()->steps as $step)
 			<span>
 				@if($step->complete())
@@ -94,9 +98,12 @@ Now you can access these steps along with their state wherever you like. Here is
 Check out all the available features below:
 
 ```php
+/** @var \Spatie\Onboard\OnboardingManager $onboarding **/
 $onboarding = Auth::user()->onboarding();
 
 $onboarding->inProgress();
+
+$onboarding->percentageCompleted();
 
 $onboarding->finished();
 
@@ -113,7 +120,7 @@ Definining custom attributes and accessing them:
 
 ```php
 // Defining the attributes
-OnboardFacade::addStep('Step w/ custom attributes')
+Onboard::addStep('Step w/ custom attributes')
 	->attributes([
 		'name' => 'Waldo',
 		'shirt_color' => 'Red & White',
@@ -126,7 +133,7 @@ $step->shirt_color;
 
 ### Example middleware
 
-If you want to ensure that your user is redirected to the next unfinished onboarding step, whenever they access your web application, you can use the following middleware as a starting point:
+If you want to ensure that your User is redirected to the next unfinished onboarding step, whenever they access your web application, you can use the following middleware as a starting point:
 
 ```php
 <?php

@@ -12,6 +12,6 @@ class OnboardServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-onboard');
 
-        $this->app->singleton(OnboardingSteps::class);
+        $this->app->scoped(OnboardingSteps::class);
     }
 }

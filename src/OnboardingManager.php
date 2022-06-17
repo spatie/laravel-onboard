@@ -2,75 +2,47 @@
 
 namespace Spatie\Onboard;
 
-/**
- * The gateway into the package. This class exposes the overall
- * state of the onboarding instance. It will typically be
- * accessed like so: $user->onboarding()
- */
+use Illuminate\Support\Collection;
+
 class OnboardingManager
 {
-    /**
-     * All defined onboarding steps.
-     *
-     * @var \Illuminate\Support\Collection
-     */
-    public $steps;
+    /** @var Collection<OnboardingStep> */
+    public Collection $steps;
 
-    /**
-     * Create the Onboarding Manager (should always be a singleton).
-     *
-     * @param mixed $user The parent app's user model.
-     * @param \Spatie\Onboard\OnboardingSteps $onboardingSteps
-     */
-    public function __construct($user, OnboardingSteps $onboardingSteps)
+    public function __construct($model, OnboardingSteps $onboardingSteps)
     {
-        $this->steps = $onboardingSteps->steps($user);
+        $this->steps = $onboardingSteps->steps($model);
     }
 
-    /**
-     * An accessor for the $steps property
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function steps()
+    /** @return Collection<OnboardingStep> */
+    public function steps(): Collection
     {
         return $this->steps;
     }
 
-    /**
-     * Determine if the users's onboarding is still in progress.
-     *
-     * @return bool
-     */
-    public function inProgress()
+    public function inProgress(): bool
     {
         return ! $this->finished();
     }
 
-    /**
-     * Determine if the users's onboarding is complete.
-     *
-     * @return bool
-     */
-    public function finished()
+    public function finished(): bool
     {
-        return collect($this->steps)->filter(function ($step) {
-            // Leave only incomplete steps.
-            return $step->incomplete();
-        })
-            // Report onboarding is finished if no incomplete steps remain.
+        return $this->steps
+            ->filter(fn (OnboardingStep $step) => $step->incomplete())
             ->isEmpty();
     }
 
-    /**
-     * Get the next unfinished onboarding step, or null if already all steps are completed.
-     *
-     * @return null|OnboardingStep
-     */
-    public function nextUnfinishedStep()
+    public function nextUnfinishedStep(): ?OnboardingStep
     {
-        return collect($this->steps)->first(function ($step) {
-            return $step->incomplete();
-        });
+        return $this->steps->first(fn (OnboardingStep $step) => $step->incomplete());
+    }
+
+    public function percentageCompleted(): float
+    {
+        $totalCompleteSteps = $this->steps
+            ->filter(fn (OnboardingStep $step) => $step->complete())
+            ->count();
+
+        return $totalCompleteSteps / $this->steps->count() * 100;
     }
 }

@@ -16,9 +16,10 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0|^8.1",
+        "php": "^8.0|^8.1",
+        "illuminate/contracts": "^7.0|^8.0|^9.0",
         "spatie/laravel-package-tools": "^1.9.2",
-        "illuminate/contracts": "^7.0|^8.0|^9.0"
+        "spatie/once": "^3.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.8",

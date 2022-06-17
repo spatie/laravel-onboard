@@ -3,155 +3,88 @@
 namespace Spatie\Onboard;
 
 use Illuminate\Support\Arr;
+use Spatie\Onboard\Concerns\Onboardable;
 
-/**
- * The main class for this package. This contains all the logic
- * for creating, and accessing onboarding steps.
- */
 class OnboardingStep
 {
-    /**
-     * The container for all defined attributes of this step.
-     *
-     * @var array
-     */
-    protected $attributes = [];
+    protected array $attributes = [];
 
-    /**
-     * The condition on which to determine if the step is complete
-     * or not. The user class gets passed through to this.
-     *
-     * @var callable|null
-     */
+    /** @var callable|null */
     protected $completeIf;
 
-    /**
-     * The current user model.
-     *
-     * @var object|null
-     */
-    protected $user;
+    protected ?Onboardable $model;
 
-    /**
-     * Create a new onboarding step.
-     *
-     * @param string $title
-     */
-    public function __construct($title)
+    public function __construct(string $title)
     {
         $this->attributes(['title' => $title]);
     }
 
-    /**
-     * Add "CTA" (Call To Action) verbaige. Best used on a button or link.
-     *
-     * @param  string $cta
-     * @return $this
-     */
-    public function cta($cta)
+    public function cta(string $cta): self
     {
         $this->attributes(['cta' => $cta]);
 
         return $this;
     }
 
-    /**
-     * Set a link to be used as the url to a CTA (button / link).
-     *
-     * @param  string $link
-     * @return $this
-     */
-    public function link($link)
+    public function link(string $link): self
     {
         $this->attributes(['link' => $link]);
 
         return $this;
     }
 
-    /**
-     * A closure containing the condition for determining if the
-     * step is complete or not.
-     *
-     * @param  callable $callback
-     * @return $this
-     */
-    public function completeIf(callable $callback)
+    public function completeIf(callable $callback): self
     {
         $this->completeIf = $callback;
 
         return $this;
     }
 
-    /**
-     * Set the user to be passed through to the supplied callback.
-     *
-     * @param object $user
-     * @return $this
-     */
-    public function setUser($user)
+    public function setModel(Onboardable $model): self
     {
-        $this->user = $user;
+        $this->model = $model;
 
         return $this;
     }
 
-    /**
-     * Determine if the the step is complete or not.
-     *
-     * @return bool
-     */
-    public function complete()
+    public function complete(): bool
     {
-        if ($this->completeIf && $this->user) {
-            return ! ! call_user_func_array($this->completeIf, [$this->user]);
+        if ($this->completeIf && $this->model) {
+            return once(fn () => app()->call($this->completeIf, ['model' => $this->model]));
         }
 
         return false;
     }
 
-    /**
-     * Determine if the step has not yet been completed.
-     *
-     * @return bool
-     */
-    public function incomplete()
+    public function incomplete(): bool
     {
         return ! $this->complete();
     }
 
-    /**
-     * Get a given attribute from the step.
-     *
-     * @param  string  $key
-     * @param  mixed  $default
-     * @return mixed
-     */
-    public function attribute($key, $default = null)
+    public function attribute(string $key, mixed $default = null): mixed
     {
         return Arr::get($this->attributes, $key, $default);
     }
 
-    /**
-     * Specify the step's attributes.
-     *
-     * @param  array  $attributes
-     * @return $this
-     */
-    public function attributes(array $attributes)
+    public function attributes(array $attributes): self
     {
         $this->attributes = array_merge($this->attributes, $attributes);
 
         return $this;
     }
 
-    /**
-     * Dynamically access the step's attributes.
-     *
-     * @param  string  $key
-     * @return mixed
-     */
-    public function __get($key)
+    public function __get(string $key): mixed
     {
         return $this->attribute($key);
+    }
+
+    public function __set(string $key, mixed $value): void
+    {
+        $this->attributes[$key] = $value;
+    }
+
+    public function __isset(string $key): bool
+    {
+        return isset($this->attributes[$key]);
     }
 }

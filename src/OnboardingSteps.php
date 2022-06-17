@@ -2,44 +2,23 @@
 
 namespace Spatie\Onboard;
 
-/**
- * A container for onboarding steps.
- */
+use Illuminate\Support\Collection;
+use Spatie\Onboard\Concerns\Onboardable;
+
 class OnboardingSteps
 {
-    /**
-     * The defined onboarding steps. Note: these do not contain a user
-     * yet, therefore they should not be accessed directly.
-     *
-     * @var array
-     */
-    protected $steps = [];
+    /** @var array<OnboardingStep> */
+    protected array $steps = [];
 
-    /**
-     * Add an onboarding step starting with a title. This is the starting
-     * method to initiate a fluent interface for configuring the step.
-     *
-     * @param string $title The title of the step.
-     */
-    public function addStep($title)
+    public function addStep(string $title): OnboardingStep
     {
         $this->steps[] = $step = new OnboardingStep($title);
 
         return $step;
     }
 
-    /**
-     * The accessor to retrieve all the defined steps. This does the important
-     * job of ensuring each step has access to the current user object.
-     *
-     * @param  object $user The current user object
-     * @return \Illuminate\Support\Collection
-     */
-    public function steps($user)
+    public function steps(Onboardable $model): Collection
     {
-        // Load each step with the current User object.
-        return collect($this->steps)->map(function ($step) use ($user) {
-            return $step->setUser($user);
-        });
+        return collect($this->steps)->map(fn (OnboardingStep $step) => $step->setModel($model));
     }
 }
