@@ -21,14 +21,14 @@ class OnboardingStep
      * The condition on which to determine if the step is complete
      * or not. The user class gets passed through to this.
      *
-     * @var callable
+     * @var callable|null
      */
     protected $completeIf;
 
     /**
      * The current user model.
      *
-     * @var object
+     * @var object|null
      */
     protected $user;
 

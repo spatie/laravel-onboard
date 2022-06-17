@@ -12,7 +12,7 @@ class OnboardingManager
     /**
      * All defined onboarding steps.
      *
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
     public $steps;
 
@@ -30,7 +30,7 @@ class OnboardingManager
     /**
      * An accessor for the $steps property
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     public function steps()
     {
