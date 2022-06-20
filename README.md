@@ -19,14 +19,14 @@ use Spatie\Onboard\Facades\Onboard;
 Onboard::addStep('Complete Profile')
     ->link('/profile')
     ->cta('Complete')
-    ->completeIf(function (User $model) {
+    ->completeIf(function (User $user) {
         return $user->profile->isComplete();
     });
 
 Onboard::addStep('Create Your First Post')
     ->link('/post/create')
     ->cta('Create Post')
-    ->completeIf(function (User $model) {
+    ->completeIf(function (User $user) {
         return $user->posts->count() > 0;
     });
 ```
@@ -105,14 +105,14 @@ class AppServiceProvider extends ServiceProvider
              * injection here to inject anything else as well.
              */
 	    	->completeIf(function (User $model) {
-	    		return $user->profile->isComplete();
+	    		return $model->profile->isComplete();
 	    	});
 
 	    Onboard::addStep('Create Your First Post')
 	    	->link('/post/create')
 	    	->cta('Create Post')
 	    	->completeIf(function (User $model) {
-	    		return $user->posts->count() > 0;
+	    		return $model->posts->count() > 0;
 	    	});
 ```
 
