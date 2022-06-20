@@ -19,15 +19,15 @@ use Spatie\Onboard\Facades\Onboard;
 Onboard::addStep('Complete Profile')
     ->link('/profile')
     ->cta('Complete')
-    ->completeIf(function (User $model) {
-        return $model->profile->isComplete();
+    ->completeIf(function (User $user) {
+        return $user->profile->isComplete();
     });
 
 Onboard::addStep('Create Your First Post')
     ->link('/post/create')
     ->cta('Create Post')
-    ->completeIf(function (User $model) {
-        return $model->posts->count() > 0;
+    ->completeIf(function (User $user) {
+        return $user->posts->count() > 0;
     });
 ```
 
