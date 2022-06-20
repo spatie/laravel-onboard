@@ -8,6 +8,53 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/spatie/laravel-onboard/Check%20&%20fix%20styling?label=code%20style)](https://github.com/spatie/laravel-onboard/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-onboard.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-onboard)
 
+This package lets you set up an onboarding flow for your application's users.
+
+Here's an example of how it's set up:
+
+```php
+use App\User;
+use Spatie\Onboard\Facades\Onboard;
+
+Onboard::addStep('Complete Profile')
+    ->link('/profile')
+    ->cta('Complete')
+    ->completeIf(function (User $model) {
+        return $user->profile->isComplete();
+    });
+
+Onboard::addStep('Create Your First Post')
+    ->link('/post/create')
+    ->cta('Create Post')
+    ->completeIf(function (User $model) {
+        return $user->posts->count() > 0;
+    });
+```
+
+You can then render this onboarding flow however you want in your templates:
+
+```blade
+@if (auth()->user()->onboarding()->inProgress())
+    <div>
+        @foreach (auth()->user()->onboarding()->steps as $step)
+            <span>
+                @if($step->complete())
+                    <i class="fa fa-check-square-o fa-fw"></i>
+                    <s>{{ $loop->iteration }}. {{ $step->title }}</s>
+                @else
+                    <i class="fa fa-square-o fa-fw"></i>
+                    {{ $loop->iteration }}. {{ $step->title }}
+                @endif
+            </span>
+
+            <a href="{{ $step->link }}" {{ $step->complete() ? 'disabled' : '' }}>
+                {{ $step->cta }}
+            </a>
+        @endforeach
+    </div>
+@endif
+```
+
 ## Support us
 
 [<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-onboard.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-onboard)
