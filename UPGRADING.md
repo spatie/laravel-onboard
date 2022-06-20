@@ -1,4 +1,10 @@
 ## Upgrading
+
+### Moving from calebporzio/onboard to spatie/laravel-onboard
+* Run `composer remove calebporzio/onboard` and `composer require spatie/laravel-onboard`
+* Replace any reference in your application from `Calebporzio\Onboard` to `Spatie\Onboard`
+* v1 of this package is fully compatible with the original package by Caleb
+
 ### Upgrading from v1 to v2
 
 * Support for PHP 7.4 has been dropped
