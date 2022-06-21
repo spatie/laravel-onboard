@@ -29,6 +29,7 @@ class OnboardingManager
     {
         return $this->steps
             ->filter(fn (OnboardingStep $step) => $step->incomplete())
+            ->filter(fn (OnboardingStep $step) => $step->notExcluded())
             ->isEmpty();
     }
 

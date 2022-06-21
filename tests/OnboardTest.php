@@ -48,6 +48,14 @@ test('is finished when all steps are complete', function () {
             return true;
         });
 
+    $onboardingSteps->addStep('Excluded Step')
+        ->excludeIf(function () {
+            return true;
+        })
+        ->completeIf(function () {
+            return false;
+        });
+
     $onboarding = new OnboardingManager($this->user, $onboardingSteps);
 
     expect($onboarding->finished())->toBeTrue()

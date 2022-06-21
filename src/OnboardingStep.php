@@ -10,6 +10,9 @@ class OnboardingStep
     protected array $attributes = [];
 
     /** @var callable|null */
+    protected $excludeIf;
+
+    /** @var callable|null */
     protected $completeIf;
 
     protected ?Onboardable $model;
@@ -33,6 +36,13 @@ class OnboardingStep
         return $this;
     }
 
+    public function excludeIf(callable $callback): self
+    {
+        $this->excludeIf = $callback;
+
+        return $this;
+    }
+
     public function completeIf(callable $callback): self
     {
         $this->completeIf = $callback;
@@ -45,6 +55,20 @@ class OnboardingStep
         $this->model = $model;
 
         return $this;
+    }
+
+    public function excluded(): bool
+    {
+        if ($this->excludeIf && $this->model) {
+            return once(fn () => app()->call($this->excludeIf, ['model' => $this->model]));
+        }
+
+        return false;
+    }
+
+    public function notExcluded(): bool
+    {
+        return ! $this->excluded();
     }
 
     public function complete(): bool
