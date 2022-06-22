@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-onboard` will be documented in this file.
 
+## 2.1.0 - 2022-06-22
+
+### What's Changed
+
+- Fix code example by @tompec in https://github.com/spatie/laravel-onboard/pull/1
+- Excluding steps based on condition by @MohmmedAshraf in https://github.com/spatie/laravel-onboard/pull/3
+
+### New Contributors
+
+- @tompec made their first contribution in https://github.com/spatie/laravel-onboard/pull/1
+- @MohmmedAshraf made their first contribution in https://github.com/spatie/laravel-onboard/pull/3
+
+**Full Changelog**: https://github.com/spatie/laravel-onboard/compare/2.0.0...2.1.0
+
 ## 2.0.0 - 2022-06-17
 
 ### What's changed
