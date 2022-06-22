@@ -163,6 +163,15 @@ $onboarding->steps()->each(function($step) {
 });
 ```
 
+Excluding steps based on condition:
+
+```php
+Onboard::addStep('Excluded Step')
+    ->excludeIf(function (User $model) {
+        return $model->isAdmin();
+    });
+```
+
 Definining custom attributes and accessing them:
 
 ```php

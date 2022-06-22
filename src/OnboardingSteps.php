@@ -19,6 +19,8 @@ class OnboardingSteps
 
     public function steps(Onboardable $model): Collection
     {
-        return collect($this->steps)->map(fn (OnboardingStep $step) => $step->setModel($model));
+        return collect($this->steps)
+            ->map(fn (OnboardingStep $step) => $step->setModel($model))
+            ->filter(fn (OnboardingStep $step) => $step->notExcluded());
     }
 }
