@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-onboard` will be documented in this file.
 
+## 2.1.1 - 2022-06-23
+
+### What's Changed
+
+- Update binding method by @tompec in https://github.com/spatie/laravel-onboard/pull/4
+
+**Full Changelog**: https://github.com/spatie/laravel-onboard/compare/2.1.0...2.1.1
+
 ## 2.1.0 - 2022-06-22
 
 ### What's Changed
