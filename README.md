@@ -116,6 +116,8 @@ class AppServiceProvider extends ServiceProvider
 	    	});
 ```
 
+The variable name passed to the `completeIf` callback must be `$model`.
+
 ### Usage
 
 Now you can access these steps along with their state wherever you like. Here is an example blade template:
