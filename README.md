@@ -115,6 +115,7 @@ class AppServiceProvider extends ServiceProvider
 	    		return $model->posts->count() > 0;
 	    	});
 ```
+**Note: Tho variable name passed to the `completeIf` callback must be `$model`**
 
 ### Usage
 
