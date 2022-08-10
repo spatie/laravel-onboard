@@ -2,10 +2,11 @@
 
 namespace Spatie\Onboard;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Spatie\Onboard\Concerns\Onboardable;
 
-class OnboardingStep
+class OnboardingStep implements Arrayable
 {
     protected array $attributes = [];
 
@@ -110,5 +111,13 @@ class OnboardingStep
     public function __isset(string $key): bool
     {
         return isset($this->attributes[$key]);
+    }
+
+    public function toArray()
+    {
+        return array_merge($this->attributes, [
+            'complete' => $this->complete(),
+            'excluded' => $this->excluded(),
+        ]);
     }
 }
