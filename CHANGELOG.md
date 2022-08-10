@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-onboard` will be documented in this file.
 
+## 2.2.0 - 2022-08-10
+
+### What's Changed
+
+- Added variable name clarification by @titonova in https://github.com/spatie/laravel-onboard/pull/5
+- Bump dependabot/fetch-metadata from 1.3.1 to 1.3.3 by @dependabot in https://github.com/spatie/laravel-onboard/pull/6
+- Add Arrayable support by @mpociot in https://github.com/spatie/laravel-onboard/pull/11
+
+### New Contributors
+
+- @titonova made their first contribution in https://github.com/spatie/laravel-onboard/pull/5
+- @dependabot made their first contribution in https://github.com/spatie/laravel-onboard/pull/6
+- @mpociot made their first contribution in https://github.com/spatie/laravel-onboard/pull/11
+
+**Full Changelog**: https://github.com/spatie/laravel-onboard/compare/2.1.1...2.2.0
+
 ## 2.1.1 - 2022-06-23
 
 ### What's Changed
