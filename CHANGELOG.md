@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-onboard` will be documented in this file.
 
+## 2.3.0 - 2022-08-17
+
+### What's Changed
+
+- Add callable attributes support by @talelmishali in https://github.com/spatie/laravel-onboard/pull/12
+
+### New Contributors
+
+- @talelmishali made their first contribution in https://github.com/spatie/laravel-onboard/pull/12
+
+**Full Changelog**: https://github.com/spatie/laravel-onboard/compare/2.2.0...2.3.0
+
 ## 2.2.0 - 2022-08-10
 
 ### What's Changed
