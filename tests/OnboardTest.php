@@ -181,3 +181,26 @@ it('will only run complete callbacks once', function () {
     expect($called)->toBe(1)
         ->and($onboarding->finished())->toBeFalse();
 });
+
+test('step attrbiutes can be callable', function () {
+    $this->user->name = fake()->name;
+
+    $onboardingSteps = new OnboardingSteps();
+    $onboardingSteps->addStep('Step 1')
+        ->link('/some/url')
+        ->cta('Test This!')
+        ->attributes(function (User $model) {
+            return [
+                'user_name' => $model->name,
+            ];
+        });
+
+    $onboarding = new OnboardingManager($this->user, $onboardingSteps);
+
+    $step = $onboarding->steps()->first();
+
+    expect($step)
+        ->user_name->not->toBeNull()
+        ->user_name->toBe($this->user->name)
+        ->title->tobe('Step 1');
+});

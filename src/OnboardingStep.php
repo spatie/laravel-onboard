@@ -11,6 +11,9 @@ class OnboardingStep implements Arrayable
     protected array $attributes = [];
 
     /** @var callable|null */
+    protected $callableAttributes;
+
+    /** @var callable|null */
     protected $excludeIf;
 
     /** @var callable|null */
@@ -58,6 +61,24 @@ class OnboardingStep implements Arrayable
         return $this;
     }
 
+    public function setCallableAttributes(): void
+    {
+        if (is_null($this->callableAttributes)) {
+            return;
+        }
+
+        $this->attributes(once(fn () => app()->call($this->callableAttributes, ['model' => $this->model])));
+    }
+
+    public function initiate(Onboardable $model): self
+    {
+        $this->setModel($model);
+
+        $this->setCallableAttributes();
+
+        return $this;
+    }
+
     public function excluded(): bool
     {
         if ($this->excludeIf && $this->model) {
@@ -91,9 +112,15 @@ class OnboardingStep implements Arrayable
         return Arr::get($this->attributes, $key, $default);
     }
 
-    public function attributes(array $attributes): self
+    public function attributes(array|callable $attributes): self
     {
-        $this->attributes = array_merge($this->attributes, $attributes);
+        if (is_callable($attributes)) {
+            $this->callableAttributes = $attributes;
+        }
+
+        if (is_array($attributes)) {
+            $this->attributes = array_merge($this->attributes, $attributes);
+        }
 
         return $this;
     }
