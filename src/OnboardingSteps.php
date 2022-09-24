@@ -15,12 +15,10 @@ class OnboardingSteps
         $step = new OnboardingStep($title);
 
         if ($model && new $model() instanceof Onboardable) {
-            $this->steps[$model][] = $step;
-        } else {
-            $this->steps['default'][] = $step;
+            return $this->steps[$model][] = $step;
         }
 
-        return $step;
+        return $this->steps['default'][] = $step;
     }
 
     public function steps(Onboardable $model): Collection
