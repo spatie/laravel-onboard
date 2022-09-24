@@ -174,6 +174,41 @@ Onboard::addStep('Excluded Step')
     });
 ```
 
+Limiting steps to a specific class:
+    
+```php
+Onboard::addStep('Limited Step', User::class)
+    ->link('/post/create');
+
+// or
+
+Onboard::addStep('Limited Step', 'App\Models\User')
+    ->link('/post/create');
+```
+
+When using limited steps, steps that are not limited will be available to all classes. For example:
+
+```php
+// Defining User steps
+Onboard::addStep('Limited User Step', User::class)
+    ->link('/post/create');
+
+// Defining Team steps
+Onboard::addStep('Limited Team Step', Team::class)
+    ->link('/post/create');
+
+// Defining a step that is available to all classes
+Onboard::addStep('Normal Step')
+    ->link('/post/create');
+```
+
+The above will result in 1 step being available to all classes, and 2 steps being available to the `User` and `Team` classes:
+
+`Other` classes will only see the `Normal Step`.
+`User` classes will both see the `Normal Step` and `Limited User Step`.
+`Team` classes will both see the `Normal Step` and `Limited Team Step`.
+
+
 Definining custom attributes and accessing them:
 
 ```php

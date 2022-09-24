@@ -3,10 +3,12 @@
 
 use Spatie\Onboard\OnboardingManager;
 use Spatie\Onboard\OnboardingSteps;
+use Spatie\Onboard\Tests\Team;
 use Spatie\Onboard\Tests\User;
 
 beforeEach(function () {
     $this->user = new User();
+    $this->team = new Team();
 });
 
 test('steps can be defined and configured', function () {
@@ -21,6 +23,35 @@ test('steps can be defined and configured', function () {
         });
 
     $this->assertEquals(1, $onboardingSteps->steps(new User())->count());
+    $this->assertEquals(1, $onboardingSteps->steps(new Team())->count());
+
+    $userStep = $onboardingSteps->steps(new User())->first();
+    $teamStep = $onboardingSteps->steps(new Team())->first();
+
+    expect($userStep->link)->toBe('/some/url')
+        ->and($userStep->cta)->toBe('Test This!')
+        ->and($userStep->title)->toBe('Test Step')
+        ->and($userStep->another)->toBe('attribute');
+
+    expect($teamStep->link)->toBe('/some/url')
+        ->and($teamStep->cta)->toBe('Test This!')
+        ->and($teamStep->title)->toBe('Test Step')
+        ->and($teamStep->another)->toBe('attribute');
+});
+
+test('limited steps can be defined and configured', function () {
+    $onboardingSteps = new OnboardingSteps();
+
+    $onboardingSteps->addStep('Test Step', User::class)
+        ->link('/some/url')
+        ->cta('Test This!')
+        ->attributes(['another' => 'attribute'])
+        ->completeIf(function () {
+            return true;
+        });
+
+    $this->assertEquals(1, $onboardingSteps->steps(new User())->count());
+    $this->assertEquals(0, $onboardingSteps->steps(new Team())->count());
 
     $step = $onboardingSteps->steps(new User())->first();
 
@@ -28,6 +59,40 @@ test('steps can be defined and configured', function () {
         ->and($step->cta)->toBe('Test This!')
         ->and($step->title)->toBe('Test Step')
         ->and($step->another)->toBe('attribute');
+});
+
+test('limited steps can be defined with normal steps', function () {
+    $onboardingSteps = new OnboardingSteps();
+
+    $onboardingSteps->addStep('Test Step', User::class);
+
+    $onboardingSteps->addStep('Test Step Normal');
+
+    $this->assertEquals(2, $onboardingSteps->steps(new User())->count());
+});
+
+test('multipe limited step models can be defined', function () {
+    $onboardingSteps = new OnboardingSteps();
+
+    $onboardingSteps->addStep('Test Step', User::class);
+
+    $onboardingSteps->addStep('Test Step Team', Team::class);
+
+    $this->assertEquals(1, $onboardingSteps->steps(new User())->count());
+    $this->assertEquals(1, $onboardingSteps->steps(new Team())->count());
+});
+
+test('multipe limited step models can be defined with normal steps', function () {
+    $onboardingSteps = new OnboardingSteps();
+
+    $onboardingSteps->addStep('Test Step', User::class);
+
+    $onboardingSteps->addStep('Test Step Normal', Team::class);
+
+    $onboardingSteps->addStep('Test Step Normal');
+
+    $this->assertEquals(2, $onboardingSteps->steps(new User())->count());
+    $this->assertEquals(2, $onboardingSteps->steps(new Team())->count());
 });
 
 test('is in progress when all steps are incomplete', function () {
@@ -46,6 +111,31 @@ test('is finished when all steps are complete', function () {
     $onboardingSteps->addStep('Test Step')
         ->completeIf(function () {
             return true;
+        });
+
+    $onboardingSteps->addStep('Excluded Step')
+        ->excludeIf(function () {
+            return true;
+        })
+        ->completeIf(function () {
+            return false;
+        });
+
+    $onboarding = new OnboardingManager($this->user, $onboardingSteps);
+
+    expect($onboarding->finished())->toBeTrue()
+        ->and($onboarding->inProgress())->toBeFalse();
+});
+
+test('is finished when all steps are complete for limited models steps', function () {
+    $onboardingSteps = new OnboardingSteps();
+    $onboardingSteps->addStep('Test Step', User::class)
+        ->completeIf(function () {
+            return true;
+        });
+    $onboardingSteps->addStep('Test Step', Team::class)
+        ->completeIf(function () {
+            return false;
         });
 
     $onboardingSteps->addStep('Excluded Step')
