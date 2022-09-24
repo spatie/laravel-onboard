@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-onboard` will be documented in this file.
 
+## 2.4.0 - 2022-09-24
+
+### What's Changed
+
+- Allow steps to be limited to specific classes by @RhysLees in https://github.com/spatie/laravel-onboard/pull/15
+
+### New Contributors
+
+- @RhysLees made their first contribution in https://github.com/spatie/laravel-onboard/pull/15
+
+**Full Changelog**: https://github.com/spatie/laravel-onboard/compare/2.3.0...2.4.0
+
 ## 2.3.0 - 2022-08-17
 
 ### What's Changed
