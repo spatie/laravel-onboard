@@ -9,7 +9,7 @@ use Spatie\Onboard\OnboardingStep;
 use Spatie\Onboard\OnboardingSteps;
 
 /**
- * @method OnboardingStep addStep(string $title)
+ * @method OnboardingStep addStep(string $title, string $model = null)
  * @method Collection<OnboardingStep> steps(Onboardable $model)
  */
 class Onboard extends Facade
