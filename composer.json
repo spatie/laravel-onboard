@@ -18,6 +18,7 @@
     "require": {
         "php": "^8.0|^8.1",
         "illuminate/contracts": "^9.0",
+        "nesbot/carbon": "^2.63",
         "spatie/laravel-package-tools": "^1.9.2",
         "spatie/once": "^3.1"
     },
