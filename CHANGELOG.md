@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-onboard` will be documented in this file.
 
+## 2.4.1 - 2023-01-25
+
+- support L10
+
 ## 2.4.0 - 2022-09-24
 
 ### What's Changed
