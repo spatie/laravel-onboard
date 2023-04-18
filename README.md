@@ -93,24 +93,24 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-	    Onboard::addStep('Complete Profile')
-	    	->link('/profile')
-	    	->cta('Complete')
-	    	/**
+        Onboard::addStep('Complete Profile')
+            ->link('/profile')
+            ->cta('Complete')
+            /**
              * The completeIf will pass the class that you've added the
              * interface & trait to. You can use Laravel's dependency
              * injection here to inject anything else as well.
              */
-	    	->completeIf(function (User $model) {
-	    		return $model->profile->isComplete();
-	    	});
+            ->completeIf(function (User $model) {
+                return $model->profile->isComplete();
+            });
 
-	    Onboard::addStep('Create Your First Post')
-	    	->link('/post/create')
-	    	->cta('Create Post')
-	    	->completeIf(function (User $model) {
-	    		return $model->posts->count() > 0;
-	    	});
+        Onboard::addStep('Create Your First Post')
+            ->link('/post/create')
+            ->cta('Create Post')
+            ->completeIf(function (User $model) {
+                return $model->posts->count() > 0;
+            });
 ```
 
 The variable name passed to the `completeIf` callback must be `$model`.
@@ -121,23 +121,23 @@ Now you can access these steps along with their state wherever you like. Here is
 
 ```blade
 @if (auth()->user()->onboarding()->inProgress())
-	<div>
-		@foreach (auth()->user()->onboarding()->steps as $step)
-			<span>
-				@if($step->complete())
-					<i class="fa fa-check-square-o fa-fw"></i>
-					<s>{{ $loop->iteration }}. {{ $step->title }}</s>
-				@else
-					<i class="fa fa-square-o fa-fw"></i>
-					{{ $loop->iteration }}. {{ $step->title }}
-				@endif
-			</span>
-						
-			<a href="{{ $step->link }}" {{ $step->complete() ? 'disabled' : '' }}>
-				{{ $step->cta }}
-			</a>
-		@endforeach
-	</div>
+    <div>
+        @foreach (auth()->user()->onboarding()->steps as $step)
+            <span>
+                @if($step->complete())
+                    <i class="fa fa-check-square-o fa-fw"></i>
+                    <s>{{ $loop->iteration }}. {{ $step->title }}</s>
+                @else
+                    <i class="fa fa-square-o fa-fw"></i>
+                    {{ $loop->iteration }}. {{ $step->title }}
+                @endif
+            </span>
+                        
+            <a href="{{ $step->link }}" {{ $step->complete() ? 'disabled' : '' }}>
+                {{ $step->cta }}
+            </a>
+        @endforeach
+    </div>
 @endif
 ```
 
@@ -154,11 +154,11 @@ $onboarding->percentageCompleted();
 $onboarding->finished();
 
 $onboarding->steps()->each(function($step) {
-	$step->title;
-	$step->cta;
-	$step->link;
-	$step->complete();
-	$step->incomplete();
+    $step->title;
+    $step->cta;
+    $step->link;
+    $step->complete();
+    $step->incomplete();
 });
 ```
 
@@ -211,10 +211,10 @@ Definining custom attributes and accessing them:
 ```php
 // Defining the attributes
 Onboard::addStep('Step w/ custom attributes')
-	->attributes([
-		'name' => 'Waldo',
-		'shirt_color' => 'Red & White',
-	]);
+    ->attributes([
+        'name' => 'Waldo',
+        'shirt_color' => 'Red & White',
+    ]);
 
 // Accessing them
 $step->name;
