@@ -2,6 +2,7 @@
 
 
 use Spatie\Onboard\OnboardingManager;
+use Spatie\Onboard\OnboardingStep;
 use Spatie\Onboard\OnboardingSteps;
 use Spatie\Onboard\Tests\Team;
 use Spatie\Onboard\Tests\User;
@@ -293,4 +294,51 @@ test('step attrbiutes can be callable', function () {
         ->user_name->not->toBeNull()
         ->user_name->toBe($this->user->name)
         ->title->tobe('Step 1');
+});
+
+test('can add step objects', function () {
+    $onboardingSteps = new OnboardingSteps();
+    $firstStep = (new OnboardingStep('Step 1'))
+        ->link('/some/url')
+        ->cta('Test This!');
+    $secondStep = (new class ('Step 2') extends OnboardingStep {})
+        ->link('/another/url')
+        ->cta('Test That!');
+    $onboardingSteps->addOnboardingStep($firstStep);
+    $onboardingSteps->addOnboardingStep($secondStep);
+
+    $onboarding = new OnboardingManager($this->user, $onboardingSteps);
+
+    $step = $onboarding->steps()->first();
+
+    expect($step)
+        ->title->toBe('Step 1')
+        ->cta->toBe('Test This!');
+
+    expect($onboarding->steps()->last())
+        ->title->toBe('Step 2')
+        ->cta->toBe('Test That!');
+
+    $firstStep->title = 'Step 11';
+    $secondStep->title = 'Step 22';
+
+    expect($step)
+        ->title->toBe('Step 11')
+        ->toArray()->toBe([
+            'title' => 'Step 11',
+            'link' => '/some/url',
+            'cta' => 'Test This!',
+            'complete' => false,
+            'excluded' => false,
+        ]);
+
+    expect($onboarding->steps()->last())
+        ->title->toBe('Step 22')
+        ->toArray()->toBe([
+            'title' => 'Step 22',
+            'link' => '/another/url',
+            'cta' => 'Test That!',
+            'complete' => false,
+            'excluded' => false,
+        ]);
 });

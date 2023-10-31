@@ -14,6 +14,11 @@ class OnboardingSteps
     {
         $step = new OnboardingStep($title);
 
+        return $this->addOnboardingStep($step, $model);
+    }
+
+    public function addOnboardingStep(OnboardingStep $step, string $model = null): OnboardingStep
+    {
         if ($model && new $model() instanceof Onboardable) {
             return $this->steps[$model][] = $step;
         }
