@@ -304,8 +304,8 @@ test('can add step objects', function () {
     $secondStep = (new class ('Step 2') extends OnboardingStep {})
         ->link('/another/url')
         ->cta('Test That!');
-    $onboardingSteps->addOnboardingStep($firstStep);
-    $onboardingSteps->addOnboardingStep($secondStep);
+    $onboardingSteps->addingStep($firstStep);
+    $onboardingSteps->addingStep($secondStep);
 
     $onboarding = new OnboardingManager($this->user, $onboardingSteps);
 
