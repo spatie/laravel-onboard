@@ -1,8 +1,6 @@
 # A Laravel package to help track user onboarding steps
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-onboard.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-onboard)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/spatie/laravel-onboard/run-tests?label=tests)](https://github.com/spatie/laravel-onboard/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/spatie/laravel-onboard/Check%20&%20fix%20styling?label=code%20style)](https://github.com/spatie/laravel-onboard/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-onboard.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-onboard)
 
 This package lets you set up an onboarding flow for your application's users.
