@@ -2,6 +2,28 @@
 
 All notable changes to `laravel-onboard` will be documented in this file.
 
+## 2.5.0 - 2023-11-01
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.3.5 to 1.3.6 by @dependabot in https://github.com/spatie/laravel-onboard/pull/25
+- update Onboard facade docblock by @alphaolomi in https://github.com/spatie/laravel-onboard/pull/26
+- Fix inconsistent tabs/space usage in README by @arkoe in https://github.com/spatie/laravel-onboard/pull/27
+- Bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/spatie/laravel-onboard/pull/28
+- Bump dependabot/fetch-metadata from 1.4.0 to 1.5.1 by @dependabot in https://github.com/spatie/laravel-onboard/pull/30
+- Bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 by @dependabot in https://github.com/spatie/laravel-onboard/pull/31
+- Alternative way to add onboarding steps by @fedeisas in https://github.com/spatie/laravel-onboard/pull/34
+- Bump stefanzweifel/git-auto-commit-action from 4 to 5 by @dependabot in https://github.com/spatie/laravel-onboard/pull/33
+- Bump actions/checkout from 3 to 4 by @dependabot in https://github.com/spatie/laravel-onboard/pull/32
+
+### New Contributors
+
+- @alphaolomi made their first contribution in https://github.com/spatie/laravel-onboard/pull/26
+- @arkoe made their first contribution in https://github.com/spatie/laravel-onboard/pull/27
+- @fedeisas made their first contribution in https://github.com/spatie/laravel-onboard/pull/34
+
+**Full Changelog**: https://github.com/spatie/laravel-onboard/compare/2.4.1...2.5.0
+
 ## 2.4.1 - 2023-01-25
 
 - support L10
