@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-onboard` will be documented in this file.
 
+## 2.6.0 - 2024-02-14
+
+### What's Changed
+
+* Add Laravel 11 support by @alexanderkroneis in https://github.com/spatie/laravel-onboard/pull/35
+
+**Full Changelog**: https://github.com/spatie/laravel-onboard/compare/2.5.0...2.6.0
+
 ## 2.5.0 - 2023-11-01
 
 ### What's Changed
