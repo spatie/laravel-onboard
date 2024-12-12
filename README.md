@@ -139,6 +139,20 @@ Now you can access these steps along with their state wherever you like. Here is
 @endif
 ```
 
+You can also attach an additional `completeIf` metheod with a different model:
+
+```php
+        Onboard::addStep('Create Your First Post')
+            ->link('/post/create')
+            ->cta('Create Post')
+            ->completeIf(function (User $model) {
+                return $model->posts->count() > 0;
+            })
+            ->completeIf(function (Business $model) {
+                return $model->posts->count() > 0 && $model->owner()->isAllowedToPost();
+            });
+```
+
 Check out all the available features below:
 
 ```php
