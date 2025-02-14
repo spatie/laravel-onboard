@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-onboard` will be documented in this file.
 
+## 2.6.1 - 2025-02-14
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 1.6.0 to 2.2.0 by @dependabot in https://github.com/spatie/laravel-onboard/pull/40
+* Bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot in https://github.com/spatie/laravel-onboard/pull/42
+* Laravel 12.x Compatibility by @laravel-shift in https://github.com/spatie/laravel-onboard/pull/43
+
+### New Contributors
+
+* @laravel-shift made their first contribution in https://github.com/spatie/laravel-onboard/pull/43
+
+**Full Changelog**: https://github.com/spatie/laravel-onboard/compare/2.6.0...2.6.1
+
 ## 2.6.0 - 2024-02-14
 
 ### What's Changed
