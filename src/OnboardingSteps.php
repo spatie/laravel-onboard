@@ -10,14 +10,14 @@ class OnboardingSteps
     /** @var array<OnboardingStep> */
     protected array $steps = [];
 
-    public function addStep(string $title, string $model = null): OnboardingStep
+    public function addStep(string $title, ?string $model = null): OnboardingStep
     {
         $step = new OnboardingStep($title);
 
         return $this->addingStep($step, $model);
     }
 
-    public function addingStep(OnboardingStep $step, string $model = null): OnboardingStep
+    public function addingStep(OnboardingStep $step, ?string $model = null): OnboardingStep
     {
         if ($model && new $model() instanceof Onboardable) {
             return $this->steps[$model][] = $step;
