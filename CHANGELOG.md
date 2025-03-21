@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-onboard` will be documented in this file.
 
+## 2.6.2 - 2025-03-21
+
+### What's Changed
+
+* Fix deprecation warning in PHP 8.4 by @austincarpenter in https://github.com/spatie/laravel-onboard/pull/45
+
+### New Contributors
+
+* @austincarpenter made their first contribution in https://github.com/spatie/laravel-onboard/pull/45
+
+**Full Changelog**: https://github.com/spatie/laravel-onboard/compare/2.6.1...2.6.2
+
 ## 2.6.1 - 2025-02-14
 
 ### What's Changed
