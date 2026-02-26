@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-onboard` will be documented in this file.
 
+## 2.6.3 - 2026-02-26
+
+### What's Changed
+
+- Add Laravel 13 compatibility
+- Update phpunit.xml.dist for PHPUnit 10+ compatibility
+
 ## 2.6.2 - 2025-03-21
 
 ### What's Changed
