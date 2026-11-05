@@ -13,36 +13,16 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        php: [8.0, 8.1, 8.2, 8.3]
-        laravel: ['9.*', '10.*', '11.*', '12.*', '13.*']
+        php: [8.2, 8.3, 8.4, 8.5, 8.6]
+        laravel: ['12.*', '13.*']
         include:
-          - laravel: 11.*
-            testbench: 9.*
-          - laravel: 10.*
-            testbench: 8.*
-          - laravel: 9.*
-            testbench: 7.*
           - laravel: 12.*
             testbench: 10.*
           - laravel: 13.*
             testbench: 11.*
         exclude:
-          - laravel: 10.*
-            php: 8.0
-          - laravel: 11.*
-            php: 8.1
-          - laravel: 11.*
-            php: 8.0
-          - laravel: 12.*
-            php: 8.0
-          - laravel: 12.*
-            php: 8.1
-          - laravel: 13.*
-            php: 8.0
-          - laravel: 13.*
-            php: 8.1
           - laravel: 13.*
             php: 8.2
 
@@ -70,4 +50,7 @@ jobs:
           composer update --prefer-dist --no-interaction
 
       - name: Execute tests
-        run: vendor/bin/pest
+        run: |
+          php --version
+          vendor/bin/pest --version
+          vendor/bin/pest

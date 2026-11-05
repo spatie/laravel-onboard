@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - '**.php'
+      - 'composer.json'
+      - '.github/workflows/phpstan.yml'
       - 'phpstan.neon.dist'
       - 'phpstan-baseline.neon'
 
@@ -17,7 +19,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.3'
           coverage: none
 
       - name: Install composer dependencies
