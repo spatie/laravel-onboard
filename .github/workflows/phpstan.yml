@@ -6,6 +6,7 @@ on:
       - '**.php'
       - 'composer.json'
       - '.github/workflows/phpstan.yml'
+      - '.github/workflows/run-tests.yml'
       - 'phpstan.neon.dist'
       - 'phpstan-baseline.neon'
 
