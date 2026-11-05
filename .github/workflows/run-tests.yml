@@ -53,4 +53,4 @@ jobs:
         run: |
           php --version
           vendor/bin/pest --version
-          vendor/bin/pest
+          vendor/bin/pest --display-deprecations
